@@ -582,6 +582,20 @@ html.lenis,html.lenis body{height:auto}
   .bg-word{display:none}
 }
 
+
+/* ── SHOWREEL ── */
+.reel{display:grid;grid-template-columns:1fr auto;gap:5rem;align-items:center;margin-top:5rem;padding-top:4rem;border-top:1px solid rgba(253,250,248,.08)}
+.reel .s-label{color:rgba(181,96,106,.85)}
+.reel-phrase{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,3.2vw,3.2rem);text-transform:uppercase;line-height:.95;letter-spacing:-.015em;color:var(--cream);margin-bottom:1.5rem}
+.reel-phrase em{font-style:italic;color:#cf7d87;font-weight:300;text-transform:none;letter-spacing:0}
+.reel-desc{font-family:var(--sans);font-size:.88rem;line-height:1.85;color:rgba(253,250,248,.62);max-width:420px;margin-bottom:2rem}
+.reel-sound{font-family:var(--sans);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream);background:transparent;border:1px solid rgba(181,96,106,.6);padding:.8rem 1.6rem;cursor:none;transition:background .3s,border-color .3s}
+.reel-sound:hover,.reel-sound[aria-pressed="true"]{background:var(--rose);border-color:var(--rose)}
+.reel-phone{width:min(300px,70vw);aspect-ratio:9/16;border-radius:38px;padding:10px;background:#0f0809;
+  box-shadow:0 0 0 1px rgba(253,250,248,.08),0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(181,96,106,.18)}
+.reel-phone video{width:100%;height:100%;object-fit:cover;border-radius:29px;display:block;background:#000}
+@media(max-width:900px){.reel{grid-template-columns:1fr;gap:3rem;justify-items:center;text-align:center}.reel .s-label{justify-content:center}.reel-desc{margin-left:auto;margin-right:auto}}
+
 /* ── KEYFRAMES ── */
 @keyframes afade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 @keyframes scrlpulse{0%,100%{opacity:.25}55%{opacity:.9}}
@@ -771,6 +785,18 @@ html.lenis,html.lenis body{height:auto}
         </div>
       </div>
 
+    </div>
+
+    <div class="reel r" style="--d:.1s">
+      <div class="reel-txt">
+        <span class="s-label">Showreel</span>
+        <h3 class="reel-phrase">MES PROJETS EN <em>37 SECONDES</em>.</h3>
+        <p class="reel-desc">Une immersion express dans mes univers : le luxe confidentiel de DOM'Occulte, l'énergie des Bichettes, l'élégance de Délices Interdits, la fraîcheur d'ERA 2016 et la douceur de Ma Luna.</p>
+        <button type="button" class="reel-sound" id="reel-sound" aria-pressed="false">Activer le son</button>
+      </div>
+      <div class="reel-phone">
+        <video id="reel-video" src="showreel-meline.mp4" poster="showreel-poster.jpg" muted loop playsinline preload="metadata" aria-label="Showreel des projets de Méline Castillo"></video>
+      </div>
     </div>
   </div>
 </div>
@@ -1358,6 +1384,15 @@ if(window.gsap&&window.ScrollTrigger&&!reduce){
 
   addEventListener('load',()=>ScrollTrigger.refresh());
 }
+
+
+/* ── SHOWREEL ── */
+(function(){
+  const v=document.getElementById('reel-video'),b=document.getElementById('reel-sound');
+  if(!v)return;
+  new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting?v.play().catch(()=>{}):v.pause()}),{threshold:.4}).observe(v);
+  if(b)b.addEventListener('click',()=>{v.muted=!v.muted;if(!v.muted)v.play().catch(()=>{});b.setAttribute('aria-pressed',String(!v.muted));b.textContent=v.muted?'Activer le son':'Couper le son'});
+})();
 
 /* ── FORM ── */
 document.getElementById('cform').addEventListener('submit',async function(e){
