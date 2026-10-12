@@ -534,6 +534,27 @@ footer .legal-line{margin-top:40px;padding-top:20px;border-top:1px solid rgba(20
 .gm-scale span{display:block;height:6px;border:1.5px solid #fff;border-top:0;box-shadow:0 1px 2px rgba(0,0,0,.6)}
 .sat .gm-attr{background:rgba(0,0,0,.55);color:#ddd}
 .gm-hint{display:none}
+
+.ev{display:grid;grid-template-columns:92px 1fr auto;gap:22px;align-items:center;padding:22px 4px;border-bottom:1px solid var(--creme-3);text-decoration:none}
+.ev:first-child{border-top:1px solid var(--creme-3)}
+.ev-d{text-align:center;border:1px solid var(--creme-3);border-radius:4px;padding:10px 6px;background:#FFF9F1}
+.ev-d b{display:block;font-family:var(--f-display);font-size:2rem;font-weight:400;line-height:1;color:var(--bordeaux)}
+.ev-d span{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--encre-2)}
+.ev h3{font-size:1.45rem;margin:4px 0 6px}
+.ev p{color:var(--encre-2);font-size:.92rem;max-width:62ch}
+.ev .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.ev .side{text-align:right;display:flex;flex-direction:column;gap:6px;align-items:flex-end;font-size:.86rem;color:var(--encre-2);min-width:140px}
+.ev .side b{font-family:var(--f-display);font-size:1.2rem;color:var(--encre);font-weight:500}
+.ev .side a{color:var(--bordeaux);font-weight:600;text-decoration:none}
+.ev .side a:hover{text-decoration:underline}
+.chip.pro{background:#E9E0EE;color:#4A1D3D}
+.chip.pub{background:#E4EBD3;color:#3E5A2A}
+.recur{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.recur div{border:1px solid var(--creme-3);border-radius:6px;padding:18px;background:#FFF9F1}
+.recur .eyebrow{color:var(--bordeaux);font-size:.64rem}
+.recur h3{font-size:1.25rem;margin:6px 0}
+.recur p{font-size:.88rem;color:var(--encre-2)}
+@media (max-width:700px){.ev{grid-template-columns:70px 1fr}.ev .side{grid-column:1/-1;align-items:flex-start;text-align:left}}
 </style>
 </head>
 <body>
@@ -552,6 +573,7 @@ footer .legal-line{margin-top:40px;padding-top:20px;border-top:1px solid rgba(20
       <a href="#vin" data-nav="vin">Vin</a>
       <a href="#cocktails" data-nav="cocktails">Cocktails</a>
       <a href="#accords" data-nav="accords">Accords mets & vins</a>
+      <a href="#agenda" data-nav="agenda">Agenda</a>
       <a href="#carte" data-nav="carte">La carte</a>
       <a href="#offrir" data-nav="offrir">Offrir</a>
     </nav>
@@ -571,7 +593,7 @@ footer .legal-line{margin-top:40px;padding-top:20px;border-top:1px solid rgba(20
         <p style="margin-top:12px;font-size:.9rem;max-width:36ch">Le média qui explique le vin et les cocktails simplement, et recense les vrais ateliers de la Côte d'Azur, prix vérifiés.</p>
       </div>
       <div><h4>Où sortir</h4><ul>
-        <li><a href="#vin">Ateliers vin</a></li><li><a href="#cocktails">Ateliers cocktails</a></li><li><a href="#accords">Accords mets & vins</a></li><li><a href="#carte">La carte</a></li><li><a href="#offrir">Offrir un atelier</a></li><li><a href="#comparatif">Comparatif des prix</a></li></ul></div>
+        <li><a href="#vin">Ateliers vin</a></li><li><a href="#cocktails">Ateliers cocktails</a></li><li><a href="#accords">Accords mets & vins</a></li><li><a href="#agenda">Agenda des salons</a></li><li><a href="#carte">La carte</a></li><li><a href="#offrir">Offrir un atelier</a></li><li><a href="#comparatif">Comparatif des prix</a></li></ul></div>
       <div><h4>Le guide</h4><ul>
         <li><a href="#apprendre-vin">Le vin</a></li><li><a href="#apprendre-cocktails">Les cocktails</a></li><li><a href="#apprendre-terroir">Côte d'Azur</a></li><li><a href="#apprendre-spiritueux">Les spiritueux</a></li><li><a href="#apprendre-prevention">Prévention</a></li><li><a href="#lexique">Lexique</a></li></ul></div>
       <div><h4>Infos</h4><ul>
@@ -1086,6 +1108,10 @@ V.accueil=()=>{
    <div class="grid">${ck.map(card).join('')}</div>
    <div class="row" style="margin-top:22px;gap:10px"><a class="chip" href="#comparatif" style="text-decoration:none">Comparatif cocktails →</a><a class="chip" href="#apprendre-cocktails" style="text-decoration:none">Articles cocktails →</a><a class="chip" href="#mocktails-maison" style="text-decoration:none">Mocktails maison →</a></div>
   </div></section>
+  ${upcoming().length?`<section class="blk"><div class="wrap">
+   <div class="sec-head"><div><span class="eyebrow">Agenda</span><h2>Salons et <em>masterclass</em>.</h2></div><a class="btn line" href="#agenda">Tout l’agenda ${arrow}</a></div>
+   <div>${upcoming().slice(0,3).map(evRow).join('')}</div>
+  </div></section>`:''}
   <section class="blk dark"><div class="wrap">
    <div class="sec-head"><div><span class="eyebrow">La carte</span><h2>Toutes les adresses, <em>vin et cocktails</em>.</h2></div><p>De Valbonne au port de Nice. Faites glisser la carte, zoomez sur Nice ou Bellet, et touchez un repère pour voir l'atelier.</p></div>
    <div class="mapwrap"><div style="min-width:0">${gmap("all")}</div>
@@ -1113,6 +1139,46 @@ V.accueil=()=>{
    </div></div></section>
   <section class="blk" style="padding-top:0"><div class="wrap">${trustBlock()}</div></section>`;
 };
+
+/* ========= Agenda ========= */
+const EV=[
+ {id:'terravini-2026',t:'Terravini, salon des vins et de la gastronomie',type:'Salon',d1:'2026-10-24',d2:'2026-10-25',when:'Sam. 10h à 20h · dim. 10h à 19h',lieu:'Palais Nikaïa, 163 bd du Mercantour, Nice',prix:'Entrée payante',pub:1,
+  desc:"5ᵉ édition du salon niçois des fondateurs du SAVIM : vignerons et producteurs, dégustation gratuite sur les stands, parking gratuit et aide pour porter les cartons jusqu'à la voiture.",
+  link:'https://www.salons-terravini.fr/',src:[['Site officiel Terravini','https://www.salons-terravini.fr/'],['Côte d’Azur France','https://cotedazurfrance.fr/offres/terravini-salon-authentique-des-vins-et-de-la-gastronomie-nice-fr-6022765/']]},
+ {id:'menton-degustations-2026',t:'Balade dégustation dans le vieux Menton',type:'Balade dégustation',d1:'2026-10-12',d2:'2026-10-31',when:'Du mardi au samedi, 18h à 21h',lieu:'Centre historique de Menton',prix:'115 € / pers.',pub:1,
+  desc:"Neuf vins en une soirée (vins aux agrumes d'un producteur local, puis vins de Provence dans un bar à vins et une cave), fromages, charcuterie et tarte au citron de Menton. Groupes de 10 personnes maximum.",
+  link:'https://montecarloliving.com/fr/actualite/degustations-de-vins-menton-2026-experience-oenotouristique-en-soiree-entre-vins-aux-agrumes-et-tradition-provencale-30925/',src:[['Monte-Carlo Living','https://montecarloliving.com/fr/actualite/degustations-de-vins-menton-2026-experience-oenotouristique-en-soiree-entre-vins-aux-agrumes-et-tradition-provencale-30925/']]},
+ {id:'cuvee-libre-2026',t:'Cuvée Libre, premier salon des vins vivants',type:'Salon',d1:'2026-11-16',d2:'2026-11-16',when:'Lundi 16 novembre',lieu:'Saint-Blaise (Alpes-Maritimes)',prix:'Tarif non communiqué',pub:0,
+  desc:"Première édition d'un salon consacré aux vins vivants, annoncée dans l'agenda des sommeliers de Nice Côte d'Azur. Un lundi : pensé d'abord pour les professionnels, renseignez-vous avant d'y aller.",
+  link:'https://asncap.fr/agenda/',src:[['Agenda ASNCAP','https://asncap.fr/agenda/']]},
+ {id:'masterclass-philipponnat-2026',t:'Masterclass Champagne Philipponnat',type:'Masterclass',d1:'2026-12-07',d2:'2026-12-07',when:'Lundi 7 décembre, suivie d’un déjeuner',lieu:'Lieu communiqué par l’association',prix:'Tarif non communiqué',pub:0,
+  desc:"Masterclass commune aux associations de sommeliers de Marseille, Nice et Rhône-Alpes, consacrée aux champagnes de la maison Philipponnat. L'occasion d'écouter des pros parler bulles.",
+  link:'https://asncap.fr/agenda/',src:[['Agenda ASNCAP','https://asncap.fr/agenda/']]}
+];
+const RECUR=[
+ {t:'Monte-Carlo Gastronomie',per:'Fin novembre, à Monaco',desc:"Plus de 100 producteurs sous le chapiteau de Fontvieille, des vins et spiritueux primés, des démonstrations. Entrée à 5 € en 2025. Dates 2026 non encore publiées.",link:'https://www.jds.fr/foires-et-salons/foires/monte-carlo-gastronomie-1239078_A'},
+ {t:'Salon des Vignerons de Cagnes-sur-Mer',per:'Début mai, à l’hippodrome',desc:"Près de 200 exposants, dégustation gratuite, entrée à 8 € en 2026. Le grand rendez-vous du printemps sur la Côte d'Azur.",link:'https://www.06-only.fr/evenementiel/salon-des-vignerons-cagnes-sur-mer/'},
+ {t:'Vins d’Azur et Biotop',per:'Mars, à Nice',desc:"Deux salons de vins artisanaux et naturels (2 mars et 30 mars en 2026). Souvent un lundi, plutôt pour les pros et les très curieux.",link:'https://www.vinsnaturels.fr/004_salons/004_salon-des-vins-naturels-2026_Salon-Vins-d-Azur-3605.html'},
+ {t:'Foires aux vins',per:'Mars-avril et septembre-octobre',desc:"Les supermarchés et cavistes cassent les prix deux fois par an. Notre conseil : venir avec une liste, et goûter avant d'acheter par caisses.",link:'#lire-une-etiquette'}
+];
+const MOIS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const today=()=>{const d=new Date();return d.toISOString().slice(0,10)};
+const upcoming=()=>EV.filter(e=>e.d2>=today()).sort((a,b)=>a.d1.localeCompare(b.d1));
+function evRow(e){const d=new Date(e.d1+'T12:00:00'),d2=new Date(e.d2+'T12:00:00');const same=e.d1===e.d2;
+ return `<div class="ev" id="ev-${e.id}"><div class="ev-d"><b>${d.getDate()}${same?'':'<small style="font-size:.9rem">→'+d2.getDate()+'</small>'}</b><span>${MOIS[d.getMonth()]}${!same&&d2.getMonth()!==d.getMonth()?' · '+MOIS[d2.getMonth()]:''} ${d.getFullYear()}</span></div>
+ <div style="min-width:0"><div class="tags"><span class="chip">${e.type}</span><span class="chip ${e.pub?'pub':'pro'}">${e.pub?'Grand public':'Plutôt pour les pros'}</span></div><h3>${e.t}</h3><p>${e.desc}</p></div>
+ <div class="side"><span>${e.when}</span><span>${e.lieu}</span><b>${e.prix}</b><a href="${e.link}" target="_blank" rel="noopener">Infos et billets ↗</a></div></div>`}
+V.agenda=()=>{const up=upcoming();return `<section class="cat-hero"><div class="wrap"><div class="stag">
+  <div class="crumbs"><a href="#accueil">Accueil</a><span>/</span><span>Agenda</span></div>
+  <h1>L’agenda <em>du curieux</em>.</h1><p>Salons, foires aux vins, masterclass et conférences autour du vin et des cocktails sur la Côte d'Azur. Les dates passées disparaissent toutes seules.</p></div><div class="art">${ph('bouteilles','Bouteilles de vin présentées par un caviste',1)}</div></div></section>
+ <section class="blk" style="padding-top:44px"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">À venir</span><h2>Les prochaines <em>dates</em>.</h2></div><p>Vérifié le ${VERIF}. Les horaires et tarifs peuvent changer : le site de l'organisateur fait foi.</p></div>
+  <div>${up.length?up.map(evRow).join(''):'<p style="color:var(--encre-2)">Pas d’événement daté pour le moment. Revenez le mois prochain, l’agenda est mis à jour chaque mois.</p>'}</div>
+  <div class="sec-head" style="margin-top:64px"><div><span class="eyebrow">Les rendez-vous de l’année</span><h2>À noter <em>dans l’agenda</em>.</h2></div><p>Des événements qui reviennent chaque année. On les ajoute en haut dès que les dates sont annoncées.</p></div>
+  <div class="recur">${RECUR.map(x=>`<div><span class="eyebrow">${x.per}</span><h3>${x.t}</h3><p>${x.desc}</p><p style="margin-top:10px"><a href="${x.link}"${x.link[0]==='#'?'':' target="_blank" rel="noopener"'} style="color:var(--bordeaux);font-weight:600;text-decoration:none">${x.link[0]==='#'?'Lire notre article →':'En savoir plus ↗'}</a></p></div>`).join('')}</div>
+  <p class="src">Sources : ${[...new Map(EV.flatMap(e=>e.src).map(x=>[x[1],x])).values()].map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ')}.</p>
+ </div></section>`};
+
 V.carte=()=>`<section class="page"><div class="wrap">
  <div class="crumbs light"><a href="#accueil">Accueil</a><span>/</span><span>La carte</span></div>
  <h1>La carte <em style="color:var(--bordeaux)">du curieux</em>.</h1>
@@ -1258,13 +1324,14 @@ V.plan=()=>{
   const tree=`<ul><li><a href="#accueil">Accueil</a> <span class="clic">0 clic</span><ul>
    <li><a href="#apprendre">Apprendre</a> <span class="clic">1 clic</span><ul>${Object.entries(ART_SUB).map(([k,v])=>`<li><a href="#apprendre-${k}">${v.name}</a> <span class="clic">2 clics</span><ul>${A.filter(a=>a.sub===k).map(a=>`<li><a href="#${a.id}">${a.t}</a> <span class="clic">3 clics</span></li>`).join('')}</ul></li>`).join('')}<li><a href="#lexique">Lexique</a> <span class="clic">2 clics</span></li></ul></li>
    ${Object.entries(CATS).map(([k,c])=>`<li><a href="#${k}">${c.name}</a> <span class="clic">1 clic</span><ul>${c.subs.map(s=>`<li>${s} <span class="clic">filtre</span><ul>${P.filter(p=>p.cat===k&&p.sub===s).map(p=>`<li><a href="#${p.id}">${p.title} · ${priceTxt(p)}</a> <span class="clic">2 clics</span></li>`).join('')}</ul></li>`).join('')}</ul></li>`).join('')}
+   <li><a href="#agenda">Agenda</a> <span class="clic">1 clic</span></li>
    <li><a href="#carte">La carte</a> <span class="clic">1 clic</span></li>
    <li><a href="#offrir">Offrir</a> <span class="clic">1 clic</span></li>
    <li><a href="#comparatif">Comparatif des prix</a> <span class="clic">1 clic · en-tête</span></li>
    <li>Pages clés <span class="clic">pied de page · 1 clic</span><ul>${Object.entries(LEGAL).map(([k,[t]])=>`<li><a href="#${k}">${t}</a></li>`).join('')}<li><a href="#contact">Contact</a></li><li><a href="#plan">Plan du site</a></li></ul></li>
   </ul></li></ul>`;
   return `<section class="page"><div class="wrap"><div class="crumbs light"><a href="#accueil">Accueil</a><span>/</span><span>Plan du site</span></div>
-  <h1>Plan du site</h1><p style="color:var(--encre-2);max-width:60ch;margin-bottom:28px">L'arborescence complète : l'accueil, 6 rubriques (Apprendre, Vin, Cocktails, Accords, La carte, Offrir), leurs sous-catégories et toutes les fiches. Chaque page est accessible en 3 clics maximum depuis l'accueil.</p>
+  <h1>Plan du site</h1><p style="color:var(--encre-2);max-width:60ch;margin-bottom:28px">L'arborescence complète : l'accueil, 7 rubriques (Apprendre, Vin, Cocktails, Accords, Agenda, La carte, Offrir), leurs sous-catégories et toutes les fiches. Chaque page est accessible en 3 clics maximum depuis l'accueil.</p>
   <div class="tree">${tree}</div></div></section>`;
 };
 
