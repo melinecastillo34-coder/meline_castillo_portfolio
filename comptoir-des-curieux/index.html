@@ -438,6 +438,8 @@ footer .legal-line{margin-top:40px;padding-top:20px;border-top:1px solid rgba(20
 
 @media (max-width:560px){.navx{display:none}}
 
+/* Carte Google Maps */
+.gmaps{position:relative;width:100%;aspect-ratio:16/10;min-height:340px;border-radius:16px;overflow:hidden;background:#E8E4DD;box-shadow:0 1px 2px rgba(60,64,67,.3),0 2px 6px rgba(60,64,67,.15)}.gmaps iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.gmaps-link{margin-top:10px;font-size:.9rem}.gmaps-link a{color:var(--bordeaux)}@media (max-width:600px){.gmaps{aspect-ratio:4/5}}
 /* Carte style plan */
 .gmap{position:relative;width:100%;aspect-ratio:16/10;min-height:340px;border-radius:16px;overflow:hidden;background:#AADAFF;box-shadow:0 1px 2px rgba(60,64,67,.3),0 2px 6px rgba(60,64,67,.15);touch-action:none;user-select:none;font-family:Roboto,"Instrument Sans",Arial,sans-serif}
 .gmap.drag{cursor:grabbing}
@@ -910,11 +912,7 @@ const poly=pts=>pts.map(([a,b])=>pj(a,b).map(v=>v.toFixed(2)).join(',')).join(' 
 const LOC={'domaine-de-la-source':[43.7333,7.1972],'domaine-de-vinceline':[43.7352,7.1938],'domaine-saint-jean':[43.7290,7.2058],'chateau-de-cremat':[43.7224,7.2168],'journee-oenologie-degust':[43.6979,7.2712],'accords-vins-fromages-degust':[43.6976,7.2722],'cours-oenologie-nice':[43.7008,7.2648],'accords-mets-vins-nice':[43.7120,7.2632],'grands-crus-valbonne':[43.6411,7.0090],'atelier-cocktails-town':[43.6971,7.2776],'cocktails-groupe-chauvain':[43.6990,7.2746],'zitto-speakeasy':[43.6962,7.2788],'atelier-gin-vadrouilleur':[43.6993,7.2856],'balade-4x4-cremat':[43.6965,7.2830]};
 const XTRA=[{id:'lerins-vin-des-moines',t:'Abbaye de Lérins',k:'info',lat:43.5078,lon:7.0465,sub:'Le vin des moines · article'}];
 const VIEWS={monde:[-170,175,-58,74],france:[-5.6,9.9,41.0,51.4],azur:[6.90,7.40,43.48,43.78],nice:[7.16,7.34,43.655,43.76]};
-function gmap(view){const v=VIEWS[view]?view:'azur';return `<div class="gmap sat" data-map data-view="${v}"><svg class="gm-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Carte satellite des ateliers" role="img">${mapLayers()}</svg><div class="gm-pins"></div><div class="gm-vig"></div>
- <div class="gm-ctrl"><button data-z="1" aria-label="Zoomer">+</button><button data-z="-1" aria-label="Dézoomer">−</button></div>
- <div class="gm-views" role="group" aria-label="Zones">${[['monde','Monde'],['france','France'],['azur','Côte d’Azur'],['nice','Nice']].map(([k,l])=>`<button data-v="${k}">${l}</button>`).join('')}</div>
- <div class="gm-scale"><span></span><b></b></div>
- <div class="gm-pop" hidden></div><div class="gm-attr">Imagerie NASA Blue Marble · Données Natural Earth, OpenStreetMap · positions indicatives</div></div>`}
+function gmap(view){return `<div class="gmaps"><iframe src="https://maps.google.com/maps?ll=43.6501776,7.2123951&z=11&t=m&hl=fr&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Carte Google Maps des ateliers, de Cannes à Nice"></iframe></div><p class="gmaps-link"><a href="https://www.google.com/maps/@43.6501776,7.2123951,11.32z" target="_blank" rel="noopener">Ouvrir dans Google Maps ↗</a></p>`}
 function mapLayers(){
   const roads={a8:[[43.575,6.93],[43.585,6.98],[43.600,7.02],[43.612,7.06],[43.625,7.10],[43.645,7.14],[43.668,7.175],[43.685,7.192],[43.700,7.205],[43.712,7.232],[43.727,7.262],[43.733,7.295],[43.738,7.335],[43.745,7.37]],
    bord:[[43.553,6.94],[43.551,6.97],[43.552,7.00],[43.555,7.02],[43.565,7.06],[43.578,7.10],[43.590,7.125],[43.620,7.135],[43.645,7.150],[43.660,7.175],[43.666,7.198],[43.668,7.215],[43.680,7.235],[43.692,7.255],[43.695,7.270],[43.6965,7.285]],
@@ -1113,7 +1111,7 @@ V.accueil=()=>{
    <div>${upcoming().slice(0,3).map(evRow).join('')}</div>
   </div></section>`:''}
   <section class="blk dark"><div class="wrap">
-   <div class="sec-head"><div><span class="eyebrow">La carte</span><h2>Toutes les adresses, <em>vin et cocktails</em>.</h2></div><p>De Valbonne au port de Nice. Faites glisser la carte, zoomez sur Nice ou Bellet, et touchez un repère pour voir l'atelier.</p></div>
+   <div class="sec-head"><div><span class="eyebrow">La carte</span><h2>Toutes les adresses, <em>vin et cocktails</em>.</h2></div><p>De Valbonne au port de Nice. Faites glisser la carte et zoomez sur Nice ou Bellet, toutes les adresses sont listées à côté.</p></div>
    <div class="mapwrap"><div style="min-width:0">${gmap("all")}</div>
     <div class="places">${['domaine-de-la-source','atelier-cocktails-town','chateau-de-cremat','atelier-gin-vadrouilleur','journee-oenologie-degust','zitto-speakeasy'].map(id=>{const p=byId(id);return `<a href="#${p.id}"><span>${p.title}</span><span>${p.cat==='vin'?'VIN':'COCKTAIL'} · ${priceTxt(p)}</span></a>`}).join('')}<a href="#carte"><span>Voir la carte complète</span><span>→</span></a></div></div>
   </div></section>
@@ -1182,10 +1180,10 @@ V.agenda=()=>{const up=upcoming();return `<section class="cat-hero"><div class="
 V.carte=()=>`<section class="page"><div class="wrap">
  <div class="crumbs light"><a href="#accueil">Accueil</a><span>/</span><span>La carte</span></div>
  <h1>La carte <em style="color:var(--bordeaux)">du curieux</em>.</h1>
- <p style="color:var(--encre-2);max-width:60ch;margin:10px 0 26px">Toutes les adresses vin et cocktails entre Cannes et Nice. En bordeaux le vin, en orange les cocktails, en rose les accords. Faites glisser pour vous déplacer, touchez un point pour voir l'atelier.</p>
+ <p style="color:var(--encre-2);max-width:60ch;margin:10px 0 26px">Toutes les adresses vin et cocktails entre Cannes et Nice. Faites glisser pour vous déplacer, et cliquez sur « Itinéraire » à côté d'une adresse pour l'ouvrir dans Google Maps.</p>
  <div style="max-width:1000px">${gmap("all")}</div>
  <div class="mapwrap" style="margin-top:36px;align-items:start;grid-template-columns:1fr 1fr">
-  ${['vin','cocktails','accords'].map(k=>`<div><h2 style="font-size:1.6rem;margin-bottom:8px">${CATS[k].name}</h2><div class="tbl"><table style="min-width:0"><tbody>${P.filter(p=>p.cat===k).map(p=>`<tr><td><a href="#${p.id}">${p.title}</a><br><small style="color:var(--encre-2)">${p.lieu}</small></td><td class="r">${priceTxt(p)}</td></tr>`).join('')}</tbody></table></div></div>`).join('')}
+  ${['vin','cocktails','accords'].map(k=>`<div><h2 style="font-size:1.6rem;margin-bottom:8px">${CATS[k].name}</h2><div class="tbl"><table style="min-width:0"><tbody>${P.filter(p=>p.cat===k).map(p=>`<tr><td><a href="#${p.id}">${p.title}</a><br><small style="color:var(--encre-2)">${p.lieu}</small></td><td class="r">${priceTxt(p)}${LOC[p.id]?`<br><a href="https://www.google.com/maps/search/?api=1&query=${LOC[p.id].join(',')}" target="_blank" rel="noopener" style="font-size:.85rem">Itinéraire ↗</a>`:''}</td></tr>`).join('')}</tbody></table></div></div>`).join('')}
  </div>
 </div></section>`;
 function trustBlock(){return `<div class="trust">
