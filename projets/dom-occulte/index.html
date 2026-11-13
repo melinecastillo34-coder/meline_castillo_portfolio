@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOM'Occulte · Projet de Méline Castillo</title>
+<meta name="description" content="Une exploration du luxe silencieux, à travers un concept d'hébergement ultra-confidentiel.">
+<link rel="canonical" href="https://melinecastillo.fr/projets/dom-occulte/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://melinecastillo.fr/projets/dom-occulte/">
+<meta property="og:title" content="DOM'Occulte · Projet de Méline Castillo">
+<meta property="og:description" content="Une exploration du luxe silencieux, à travers un concept d'hébergement ultra-confidentiel.">
+<meta property="og:image" content="https://melinecastillo.fr/assets/img/dom-occulte.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=2">
+</head><body>
+
+<svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="4" stitchTiles="stitch"/>
+  <feColorMatrix type="saturate" values="0"/></filter>
+  <rect width="100%" height="100%" filter="url(#n)"/>
+</svg>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+
+<!-- ══ BARRE DE MENU ══ -->
+<nav class="nav" aria-label="Menu principal">
+  <a href="/" class="nav-logo">Méline Castillo<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Accueil</a></li>
+    <li><a href="/projets/" class="active" aria-current="page">Projets</a></li>
+    <li><a href="/a-propos/">À propos</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+  <a href="/CV%20M%C3%A9line%20Castillo.pdf" download class="nav-cv">CV</a>
+  <button class="nav-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span></button>
+</nav>
+<div class="mmenu" id="mmenu">
+  <ul class="mmenu-links">
+    <li><a href="/"><small>01</small>Accueil</a></li>
+    <li><a href="/projets/" class="active"><small>02</small>Projets</a></li>
+    <li><a href="/a-propos/"><small>03</small>À propos</a></li>
+    <li><a href="/contact/"><small>04</small>Contact</a></li>
+  </ul>
+  <div class="mmenu-foot">
+    <a href="mailto:meline.castillo.34@gmail.com" class="m-mail">meline.castillo.34@gmail.com</a>
+    <a href="/CV%20M%C3%A9line%20Castillo.pdf" download class="nav-cv">Télécharger le CV</a>
+  </div>
+</div>
+
+<main>
+
+<!-- ══ EN-TÊTE DU PROJET ══ -->
+<section class="wrap case-hero">
+  <a href="/projets/" class="case-back">Tous les projets</a>
+  <div class="case-grid">
+    <div>
+      <span class="case-num">Projet 01</span>
+      <span class="case-type">Concept · Hébergement de luxe</span>
+      <h1 class="case-title">DOM'Occulte<em>.</em></h1>
+      <p class="case-lead">Une exploration du luxe silencieux, à travers un concept d'hébergement ultra-confidentiel.</p>
+      <dl class="case-meta">
+          <div><dt>Projet</dt><dd>En groupe</dd></div>
+          <div><dt>Mon rôle</dt><dd>Le site, de A à Z</dd></div>
+          <div><dt>Outil</dt><dd>Wix</dd></div>
+      </dl>
+    </div>
+    <div class="case-visual">
+      <img src="/assets/img/dom-occulte.jpg" alt="DOM'Occulte" class="logo">
+    </div>
+  </div>
+</section>
+
+<!-- ══ DÉTAILS ══ -->
+<section class="case-body">
+  <div class="wrap">
+    <div class="case-row r">
+      <h2>Le <em>projet</em></h2>
+      <div><p>DOM'Occulte, c'est un concept d'hébergement ultra-confidentiel où l'architecture du secret rencontre la sagesse ancestrale. Une façon de penser le luxe autrement : discret, rare, presque invisible.</p></div>
+    </div>
+    <div class="case-row r">
+      <h2>Mon <em>rôle</em></h2>
+      <div><p>DOM'Occulte est un projet de groupe. Le site internet, par contre, je l'ai imaginé et réalisé seule, du début à la fin.</p></div>
+    </div>
+    <div class="case-row r">
+      <h2>Les <em>outils</em></h2>
+      <div><div class="tags"><span>Wix</span><span>Webdesign</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SITE EN LIGNE ══ -->
+<section class="case-live">
+  <div class="wrap section-pad">
+    <div class="case-live-inner">
+      <div>
+        <span class="s-label r">En ligne</span>
+        <h2>LE SITE, <em>EN VRAI</em>.</h2>
+      </div>
+      <a href="https://melinecastillo342.wixsite.com/domocculte" target="_blank" rel="noopener" class="btn">Visiter DOM'Occulte ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJET SUIVANT ══ -->
+<a href="/projets/les-bichettes/" class="case-next">
+  <div class="wrap">
+    <small>Projet suivant</small>
+    <strong>Les Bichettes</strong>
+  </div>
+</a>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="ft-name">Méline Castillo</span>
+    <ul class="ft-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/projets/">Projets</a></li>
+      <li><a href="/a-propos/">À propos</a></li>
+      <li><a href="/contact/">Contact</a></li>
+      <li><a href="https://linkedin.com/in/meline-castillo" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+    <span class="ft-yr">© 2026</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="/assets/main.js?v=2"></script>
+<script data-goatcounter="https://melinecastillo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
