@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'énergie mécanique, version facile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf7f0; --ink:#1d1b26; --muted:#5f5b6b; --card:#ffffff; --line:#e7e0d4;
+  --ec:#ff6b35; --ep:#2f7cf6; --em:#7b4dff; --heat:#e23d5b; --ok:#1fa971;
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "DM Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif;line-height:1.1;margin:0 0 .5em}
+h2{font-size:clamp(28px,4.5vw,42px)}
+h3{font-size:22px}
+p{margin:0 0 1em}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:10;background:rgba(251,247,240,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:500;font-size:15px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff}
+nav a:hover{border-color:var(--ink)}
+header.hero{padding:70px 0 50px}
+.tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:#fff;padding:5px 11px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(40px,8vw,82px);font-weight:800;letter-spacing:-.02em}
+.hero h1 span{background:linear-gradient(90deg,var(--ec),var(--em));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:20px;color:var(--muted);max-width:640px}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.num{font-family:"Bricolage Grotesque";font-weight:800;color:var(--muted);font-size:15px;letter-spacing:.08em;margin-bottom:8px;display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.emoji{font-size:34px;line-height:1;margin-bottom:10px;display:block}
+.formula{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(28px,5vw,44px);text-align:center;padding:22px;border-radius:var(--r);margin:18px 0;color:#fff}
+.f-ec{background:var(--ec)} .f-ep{background:var(--ep)} .f-em{background:var(--em)}
+.legend{display:grid;gap:8px;margin-top:6px}
+.legend div{display:flex;gap:10px;align-items:baseline}
+.legend b{font-family:"Bricolage Grotesque";font-size:20px;min-width:34px}
+.tip{border-left:5px solid var(--ink);background:#fff;padding:16px 18px;border-radius:0 12px 12px 0;margin:18px 0}
+.tip.warn{border-color:var(--heat)} .tip.good{border-color:var(--ok)}
+.tip strong:first-child{display:block;margin-bottom:4px}
+label{font-weight:700;font-size:15px;display:block;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:var(--ink)}
+select,button{font:inherit}
+select{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;width:100%}
+.btn{cursor:pointer;border:0;border-radius:999px;padding:10px 18px;font-weight:700;background:var(--ink);color:#fff}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn:hover{opacity:.88}
+.big{font-family:"Bricolage Grotesque";font-weight:800;font-size:40px;line-height:1}
+.small{font-size:14px;color:var(--muted)}
+canvas{width:100%;display:block;border-radius:14px;background:#f3eee5}
+.bars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end;height:190px;margin-top:16px}
+.bar{display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center}
+.bar .fill{border-radius:10px 10px 4px 4px;transition:height .05s linear;min-height:2px}
+.bar .lab{font-size:13px;font-weight:700;margin-top:6px}
+.bar .val{font-size:13px;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.switch{display:flex;gap:8px;align-items:center;font-weight:500;cursor:pointer}
+.switch input{width:20px;height:20px;accent-color:var(--heat)}
+.road{position:relative;height:70px;background:#3a3a44;border-radius:12px;overflow:hidden;margin:14px 0}
+.road .seg{position:absolute;top:22px;height:26px;border-radius:6px}
+.road .car{position:absolute;top:14px;left:6px;font-size:34px;line-height:1}
+.road .kid{position:absolute;top:16px;font-size:32px;line-height:1}
+.road::after{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:repeating-linear-gradient(90deg,#fff 0 18px,transparent 18px 36px);opacity:.35}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.chip{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.q{margin-bottom:16px}
+.q .opts{display:grid;gap:8px;margin-top:10px}
+.q button.opt{text-align:left;cursor:pointer;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 14px}
+.q button.opt:hover:not(:disabled){border-color:var(--ink)}
+.q button.opt.right{border-color:var(--ok);background:#e9f8f1}
+.q button.opt.wrong{border-color:var(--heat);background:#fdecef}
+.q .exp{display:none;margin-top:10px;font-size:15px;color:var(--muted)}
+.q.done .exp{display:block}
+.score{position:sticky;bottom:14px;margin-top:20px;background:var(--ink);color:#fff;border-radius:999px;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.memo li{margin-bottom:8px}
+footer{padding:40px 0 60px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+.c-ec{color:var(--ec)} .c-ep{color:var(--ep)} .c-em{color:var(--em)} .c-heat{color:var(--heat)}
+@media (max-width:600px){.bars{height:150px}.big{font-size:32px}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#intro">C'est quoi l'énergie ?</a>
+  <a href="#ec">Énergie de mouvement</a>
+  <a href="#ep">Énergie de hauteur</a>
+  <a href="#em">Énergie mécanique</a>
+  <a href="#route">La route</a>
+  <a href="#memo">À retenir</a>
+  <a href="#quiz">Quiz</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="tag">Physique-chimie · 3ème</span>
+  <h1>L'énergie <span>mécanique</span>, sans prise de tête</h1>
+  <p>Pourquoi un skate redescend tout seul d'une rampe ? Pourquoi rouler 2 fois plus vite, c'est 4 fois plus dangereux ? On voit tout ça ici, avec des trucs à tester toi-même.</p>
+</div></header>
+
+<!-- 1 -->
+<section id="intro"><div class="wrap">
+  <span class="num">01</span>
+  <h2>C'est quoi l'énergie, en vrai ?</h2>
+  <p>L'énergie, c'est ce qui permet de <strong>faire bouger</strong>, <strong>chauffer</strong> ou <strong>éclairer</strong> quelque chose. Sans énergie, rien ne se passe. Ton téléphone en a besoin (batterie), toi aussi (ce que tu manges), une voiture aussi (essence ou batterie).</p>
+  <p>On la mesure en <strong>joules</strong>, avec le symbole <strong>J</strong>. Comme on mesure une distance en mètres.</p>
+  <div class="tip good"><strong>Le truc le plus important du chapitre</strong>L'énergie ne disparaît jamais et n'apparaît jamais de nulle part. Elle <em>change de forme</em>. C'est tout. Garde ça en tête, tout le reste en découle.</div>
+  <p>Dans ce chapitre, on s'intéresse à deux formes d'énergie liées au mouvement et à la hauteur. Ensemble, elles forment l'<strong>énergie mécanique</strong>.</p>
+</div></section>
+
+<!-- 2 -->
+<section id="ec"><div class="wrap">
+  <span class="num">02</span>
+  <h2><span class="c-ec">L'énergie de mouvement</span></h2>
+  <p>Dès qu'un truc bouge, il a de l'énergie. Le nom officiel (que ta prof va utiliser), c'est l'<strong>énergie cinétique</strong>. « Cinétique » vient d'un mot grec qui veut juste dire « mouvement ». Rien de compliqué.</p>
+
+  <div class="grid g2">
+    <div class="card"><span class="emoji">🏋️</span><h3>Plus c'est lourd…</h3><p>Un ballon de foot qui te fonce dessus à 30 km/h, ça pique. Une voiture à 30 km/h, c'est une autre histoire. Même vitesse, mais la voiture est bien plus lourde, donc elle a bien plus d'énergie.</p></div>
+    <div class="card"><span class="emoji">💨</span><h3>Plus ça va vite…</h3><p>Et là, attention : la vitesse compte <strong>énormément</strong>. Si tu vas 2 fois plus vite, tu n'as pas 2 fois plus d'énergie, tu en as <strong>4 fois plus</strong>. 3 fois plus vite ? 9 fois plus.</p></div>
+  </div>
+
+  <div class="formula f-ec">E<sub>c</sub> = ½ × m × v²</div>
+  <div class="legend card">
+    <div><b class="c-ec">E<sub>c</sub></b><span>l'énergie de mouvement, en <strong>joules (J)</strong></span></div>
+    <div><b class="c-ec">m</b><span>la masse (le poids, en gros), en <strong>kilogrammes (kg)</strong></span></div>
+    <div><b class="c-ec">v</b><span>la vitesse, en <strong>mètres par seconde (m/s)</strong>. Le petit ² veut dire « multiplié par lui-même » : v² = v × v</span></div>
+  </div>
+
+  <div class="tip warn"><strong>Le piège n°1 des contrôles</strong>La vitesse doit être en <strong>m/s</strong>, pas en km/h. Pour passer de km/h à m/s : tu <strong>divises par 3,6</strong>. Exemple : 36 km/h ÷ 3,6 = 10 m/s.</div>
+
+  <h3 style="margin-top:30px">🧪 Teste toi-même</h3>
+  <div class="card">
+    <div class="grid g2">
+      <div>
+        <label for="obj">Choisis un truc qui bouge</label>
+        <select id="obj">
+          <option value="0.45">⚽ Ballon de foot (0,45 kg)</option>
+          <option value="60" selected>🧍 Toi qui cours (60 kg)</option>
+          <option value="75">🚲 Toi + ton vélo (75 kg)</option>
+          <option value="190">🛵 Scooter avec quelqu'un dessus (190 kg)</option>
+          <option value="1200">🚗 Voiture (1 200 kg)</option>
+        </select>
+        <label for="spd" style="margin-top:16px">Vitesse : <span id="spdv">20</span> km/h <span class="small">(= <span id="spdms">5,6</span> m/s)</span></label>
+        <input id="spd" type="range" min="0" max="130" value="20">
+        <div class="row" style="margin-top:10px">
+          <button class="btn ghost" id="x2">Doubler la vitesse</button>
+          <button class="btn ghost" id="half">Diviser par 2</button>
+        </div>
+      </div>
+      <div>
+        <div class="small">Énergie de mouvement</div>
+        <div class="big c-ec" id="ecv">0 J</div>
+        <p class="small" id="ecdetail" style="margin-top:8px"></p>
+        <p class="small" id="eccompare"></p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 3 -->
+<section id="ep"><div class="wrap">
+  <span class="num">03</span>
+  <h2><span class="c-ep">L'énergie de hauteur</span></h2>
+  <p>Un truc posé en hauteur a de l'énergie <strong>en réserve</strong>. Il ne bouge pas, mais s'il tombe, il va prendre de la vitesse. Cette énergie « stockée » grâce à la hauteur, son nom officiel c'est l'<strong>énergie potentielle</strong> (de position). « Potentielle » parce qu'elle <em>pourrait</em> servir.</p>
+  <div class="grid g3">
+    <div class="card"><span class="emoji">📏</span><h3>Plus c'est haut</h3><p>Un pot de fleurs qui tombe du 1er étage ou du 5ème ? Clairement pas pareil. Plus c'est haut, plus il y a d'énergie en réserve.</p></div>
+    <div class="card"><span class="emoji">🧱</span><h3>Plus c'est lourd</h3><p>Une plume et une brique sur la même étagère : la brique a bien plus d'énergie stockée.</p></div>
+    <div class="card"><span class="emoji">🌍</span><h3>Grâce à la Terre</h3><p>C'est la Terre qui attire tout vers le bas (la pesanteur). Sans elle, la hauteur ne servirait à rien.</p></div>
+  </div>
+  <div class="formula f-ep">E<sub>p</sub> = m × g × h</div>
+  <div class="legend card">
+    <div><b class="c-ep">m</b><span>la masse, en <strong>kg</strong></span></div>
+    <div><b class="c-ep">g</b><span>l'attraction de la Terre, toujours <strong>9,8</strong> sur Terre (en N/kg). Tu la retiens, c'est un nombre fixe</span></div>
+    <div><b class="c-ep">h</b><span>la hauteur, en <strong>mètres (m)</strong></span></div>
+  </div>
+  <p class="small" style="margin-top:12px">Exemple : toi (60 kg) en haut d'un plongeoir de 5 m → 60 × 9,8 × 5 = <strong>2 940 J</strong> en réserve.</p>
+</div></section>
+
+<!-- 4 -->
+<section id="em"><div class="wrap">
+  <span class="num">04</span>
+  <h2><span class="c-em">L'énergie mécanique</span> = les deux ensemble</h2>
+  <div class="formula f-em">E<sub>m</sub> = E<sub>c</sub> + E<sub>p</sub></div>
+  <p>L'énergie mécanique, c'est simplement l'addition : énergie de mouvement + énergie de hauteur. Et le truc cool, c'est que l'une se transforme en l'autre.</p>
+  <ul>
+    <li><strong>Quand ça descend</strong> : la hauteur diminue, la vitesse augmente. L'énergie de hauteur se transforme en énergie de mouvement.</li>
+    <li><strong>Quand ça monte</strong> : c'est l'inverse, on perd de la vitesse et on gagne de la hauteur.</li>
+  </ul>
+
+  <h3 style="margin-top:28px">🛹 Le skate dans le half-pipe</h3>
+  <p class="small">Lance le skater et regarde les barres. Ensuite, active les frottements pour voir ce qui se passe dans la vraie vie.</p>
+  <div class="card">
+    <canvas id="cv" width="900" height="340"></canvas>
+    <div class="grid g2" style="margin-top:16px">
+      <div>
+        <label for="hstart">Hauteur de départ : <span id="hv">3</span> m</label>
+        <input id="hstart" type="range" min="1" max="4" step="0.5" value="3">
+      </div>
+      <div class="row" style="justify-content:flex-end">
+        <label class="switch"><input type="checkbox" id="fric"> Frottements (vraie vie)</label>
+        <button class="btn" id="play">▶ Lancer</button>
+        <button class="btn ghost" id="reset">↺</button>
+      </div>
+    </div>
+    <div class="bars">
+      <div class="bar"><div class="fill" id="bEp" style="background:var(--ep)"></div><div class="lab c-ep">Hauteur (E<sub>p</sub>)</div><div class="val" id="vEp"></div></div>
+      <div class="bar"><div class="fill" id="bEc" style="background:var(--ec)"></div><div class="lab c-ec">Mouvement (E<sub>c</sub>)</div><div class="val" id="vEc"></div></div>
+      <div class="bar"><div class="fill" id="bEm" style="background:var(--em)"></div><div class="lab c-em">Mécanique (E<sub>m</sub>)</div><div class="val" id="vEm"></div></div>
+      <div class="bar"><div class="fill" id="bH" style="background:var(--heat)"></div><div class="lab c-heat">Chaleur</div><div class="val" id="vH"></div></div>
+    </div>
+    <p class="small" style="margin-top:12px">Skater de 50 kg.</p>
+  </div>
+
+  <div class="grid g2" style="margin-top:20px">
+    <div class="tip good" style="margin:0"><strong>Sans frottements</strong>L'énergie mécanique reste <strong>toujours pareille</strong> (on dit qu'elle se <em>conserve</em>). Le skater remonte exactement à la même hauteur, pour toujours.</div>
+    <div class="tip warn" style="margin:0"><strong>Avec frottements</strong>Les roues et l'air freinent. Une partie de l'énergie mécanique part en <strong>chaleur</strong>. Elle n'est pas perdue, elle a juste changé de forme. Du coup le skater remonte de moins en moins haut.</div>
+  </div>
+</div></section>
+
+<!-- 5 -->
+<section id="route"><div class="wrap">
+  <span class="num">05</span>
+  <h2>🚗 Et sur la route ?</h2>
+  <p>C'est l'application la plus importante du chapitre (et elle tombe souvent au brevet). Quand une voiture voit un danger, elle ne s'arrête pas d'un coup. Il y a deux étapes :</p>
+  <div class="grid g2">
+    <div class="card"><h3><span class="chip" style="background:#ffc93c"></span>1. Le temps de réagir</h3><p>Le conducteur voit le danger, son cerveau capte, son pied passe sur la pédale. Ça prend environ <strong>1 seconde</strong>. Pendant ce temps, la voiture continue à la même vitesse. C'est la <strong>distance de réaction</strong>. Fatigue, alcool, téléphone : ça l'allonge.</p></div>
+    <div class="card"><h3><span class="chip" style="background:var(--heat)"></span>2. Le freinage</h3><p>Les freins transforment l'énergie de mouvement en <strong>chaleur</strong> (les freins chauffent vraiment). Plus il y a d'énergie de mouvement, plus il faut de distance. C'est la <strong>distance de freinage</strong>. Elle augmente avec le carré de la vitesse.</p></div>
+  </div>
+  <div class="formula" style="background:var(--ink)">Distance d'arrêt = réaction + freinage</div>
+
+  <div class="card">
+    <label for="vroad">Vitesse de la voiture : <span id="vrv">50</span> km/h</label>
+    <input id="vroad" type="range" min="10" max="130" step="5" value="50">
+    <div class="row" style="margin-top:10px">
+      <label class="switch"><input type="checkbox" id="wet"> Route mouillée 🌧️</label>
+      <label class="switch"><input type="checkbox" id="phone"> Conducteur sur son téléphone 📱</label>
+    </div>
+    <div class="road" id="road">
+      <div class="seg" id="sR" style="background:#ffc93c"></div>
+      <div class="seg" id="sF" style="background:var(--heat)"></div>
+      <div class="car">🚗</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="small"><span class="chip" style="background:#ffc93c"></span>Réaction</div><div class="big" style="font-size:28px" id="dR"></div></div>
+      <div class="kpi"><div class="small"><span class="chip" style="background:var(--heat)"></span>Freinage</div><div class="big" style="font-size:28px" id="dF"></div></div>
+      <div class="kpi"><div class="small">Arrêt total</div><div class="big" style="font-size:28px" id="dT"></div></div>
+    </div>
+    <p class="small" style="margin-top:12px" id="roadtxt"></p>
+    <p class="small">Valeurs approximatives, pour une voiture normale avec de bons pneus. La barre fait 150 m.</p>
+  </div>
+</div></section>
+
+<!-- 6 -->
+<section id="memo"><div class="wrap">
+  <span class="num">06</span>
+  <h2>📌 À retenir (la fiche à recopier)</h2>
+  <div class="card memo">
+    <ul>
+      <li>L'énergie se mesure en <strong>joules (J)</strong>. Elle ne disparaît jamais, elle <strong>change de forme</strong>.</li>
+      <li><span class="c-ec"><strong>Énergie cinétique</strong></span> (de mouvement) : <strong>E<sub>c</sub> = ½ × m × v²</strong>, avec m en kg et v en m/s.</li>
+      <li>Vitesse ×2 → énergie de mouvement ×4. Vitesse ×3 → ×9.</li>
+      <li>km/h → m/s : <strong>÷ 3,6</strong>. m/s → km/h : <strong>× 3,6</strong>.</li>
+      <li><span class="c-ep"><strong>Énergie potentielle</strong></span> (de hauteur) : plus c'est haut et lourd, plus il y en a. <strong>E<sub>p</sub> = m × g × h</strong>, g = 9,8 N/kg.</li>
+      <li><span class="c-em"><strong>Énergie mécanique</strong></span> : <strong>E<sub>m</sub> = E<sub>c</sub> + E<sub>p</sub></strong>.</li>
+      <li>Quand un objet tombe : E<sub>p</sub> se transforme en E<sub>c</sub>. Quand il monte : l'inverse.</li>
+      <li>Sans frottements, E<sub>m</sub> reste constante. Avec frottements, une partie part en <strong>chaleur</strong>.</li>
+      <li><strong>Distance d'arrêt = distance de réaction + distance de freinage.</strong> La distance de freinage augmente beaucoup avec la vitesse.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 7 -->
+<section id="quiz"><div class="wrap">
+  <span class="num">07</span>
+  <h2>🎯 Quiz : t'as capté ?</h2>
+  <p class="small">8 questions. Clique sur ta réponse, l'explication s'affiche direct.</p>
+  <div id="qz"></div>
+  <div class="score"><span id="sc">Score : 0 / 8</span><button class="btn ghost" id="qreset" style="padding:7px 14px">Recommencer</button></div>
+</div></section>
+
+<footer><div class="wrap">Cours de physique-chimie, niveau 3ème · Énergie mécanique</div></footer>
+
+<script>
+const fmt = (n, d=0) => n.toLocaleString('fr-FR',{maximumFractionDigits:d, minimumFractionDigits:0});
+
+/* ---------- Calculatrice Ec ---------- */
+const obj = document.getElementById('obj'), spd = document.getElementById('spd');
+let lastEc = null;
+function updEc(){
+  const m = parseFloat(obj.value), kmh = parseFloat(spd.value), v = kmh/3.6;
+  const ec = 0.5*m*v*v;
+  document.getElementById('spdv').textContent = kmh;
+  document.getElementById('spdms').textContent = fmt(v,1);
+  document.getElementById('ecv').textContent = fmt(ec) + ' J';
+  document.getElementById('ecdetail').innerHTML = `Calcul : ½ × ${fmt(m,2)} × ${fmt(v,1)}² = <strong>${fmt(ec)} J</strong>`;
+  let cmp = '';
+  if (lastEc !== null && lastEc > 0 && ec > 0) {
+    const r = ec/lastEc;
+    if (Math.abs(r-1) > 0.01) cmp = r > 1 ? `👉 C'est ${fmt(r,1)} fois plus qu'avant.` : `👉 C'est ${fmt(1/r,1)} fois moins qu'avant.`;
+  }
+  document.getElementById('eccompare').textContent = cmp;
+}
+function setSpeed(kmh){ lastEc = 0.5*parseFloat(obj.value)*(spd.value/3.6)**2; spd.value = Math.max(0,Math.min(130,kmh)); updEc(); }
+spd.addEventListener('input', ()=>{ lastEc=null; updEc(); });
+obj.addEventListener('change', ()=>{ lastEc=null; updEc(); });
+document.getElementById('x2').onclick = ()=>{ if(spd.value*2>130){ document.getElementById('eccompare').textContent='Trop rapide pour le curseur, baisse un peu la vitesse d’abord.'; return;} setSpeed(spd.value*2); };
+document.getElementById('half').onclick = ()=> setSpeed(Math.round(spd.value/2));
+updEc();
+
+/* ---------- Half-pipe ---------- */
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const M = 50, G = 9.8, HMAX = 4;
+let H = 3, A = 1, phase = 0, running = false, last = 0;
+const W = cv.width, Hc = cv.height, pad = 40, ground = Hc - 40;
+const scaleY = (ground - 40) / HMAX;
+const toX = x => W/2 + x*(W/2 - pad);
+const rampY = (x) => ground - (HMAX*x*x)*scaleY; // ramp shape for full 4 m
+function heightAt(x){ return HMAX*x*x; }
+
+function draw(){
+  ctx.clearRect(0,0,W,Hc);
+  // height marks
+  ctx.strokeStyle = '#d9d1c3'; ctx.fillStyle='#8a8496'; ctx.font = '14px DM Sans'; ctx.lineWidth=1;
+  for(let h=1; h<=4; h++){
+    const y = ground - h*scaleY;
+    ctx.setLineDash([4,6]); ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillText(h+' m', 4, y+5);
+  }
+  // ramp
+  ctx.beginPath();
+  for(let i=0;i<=200;i++){ const x=-1+2*i/200; const px=toX(x), py=rampY(x); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.lineTo(toX(1), Hc); ctx.lineTo(toX(-1), Hc); ctx.closePath();
+  ctx.fillStyle = '#cfc5b4'; ctx.fill();
+  ctx.beginPath();
+  for(let i=0;i<=200;i++){ const x=-1+2*i/200; const px=toX(x), py=rampY(x); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.strokeStyle = '#1d1b26'; ctx.lineWidth = 4; ctx.stroke();
+  // start height line
+  const ys = ground - H*scaleY;
+  ctx.strokeStyle = 'rgba(123,77,255,.5)'; ctx.lineWidth=2; ctx.setLineDash([8,6]);
+  ctx.beginPath(); ctx.moveTo(pad,ys); ctx.lineTo(W-pad,ys); ctx.stroke(); ctx.setLineDash([]);
+  // skater: amplitude in "height" terms
+  const xr = Math.sqrt(H/HMAX) * A * Math.cos(phase); // position in ramp coords
+  const px = toX(xr), py = rampY(xr);
+  const slope = -(2*HMAX*xr)*scaleY / (W/2 - pad);
+  const ang = Math.atan(slope);
+  ctx.save(); ctx.translate(px,py); ctx.rotate(ang);
+  // board
+  ctx.fillStyle = '#ff6b35'; ctx.fillRect(-26,-10,52,6);
+  ctx.fillStyle = '#1d1b26'; ctx.beginPath(); ctx.arc(-16,-3,4,0,7); ctx.arc(16,-3,4,0,7); ctx.fill();
+  // body
+  ctx.strokeStyle = '#1d1b26'; ctx.lineWidth = 4; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(-8,-12); ctx.lineTo(0,-34); ctx.lineTo(8,-12); ctx.moveTo(0,-34); ctx.lineTo(0,-56);
+  ctx.moveTo(-14,-46); ctx.lineTo(0,-50); ctx.lineTo(14,-46); ctx.stroke();
+  ctx.fillStyle='#1d1b26'; ctx.beginPath(); ctx.arc(0,-66,9,0,7); ctx.fill();
+  ctx.restore();
+  return xr;
+}
+
+function bars(xr){
+  const em0 = M*G*H;
+  const hNow = heightAt(xr);
+  const ep = M*G*hNow;
+  const em = em0*A*A;
+  const ec = Math.max(0, em - ep);
+  const heat = em0 - em;
+  const max = M*G*HMAX;
+  const set=(id,val)=>{ document.getElementById('b'+id).style.height = (val/max*100)+'%'; document.getElementById('v'+id).textContent = fmt(val)+' J'; };
+  set('Ep',ep); set('Ec',ec); set('Em',em); set('H',heat);
+}
+
+const fric = document.getElementById('fric');
+function loop(t){
+  if(!running){ return; }
+  const dt = Math.min(0.05,(t-last)/1000); last = t;
+  const omega = 2.2; // rad/s
+  phase += omega*dt;
+  if(fric.checked){ A *= Math.exp(-0.12*dt); if(A<0.02){A=0;} }
+  const xr = draw(); bars(xr);
+  if(A===0){ running=false; document.getElementById('play').textContent='▶ Lancer'; return; }
+  requestAnimationFrame(loop);
+}
+document.getElementById('play').onclick = function(){
+  running = !running; this.textContent = running ? '⏸ Pause' : '▶ Lancer';
+  if(running){ if(A===0){A=1;phase=0;} last=performance.now(); requestAnimationFrame(loop); }
+};
+function resetPipe(){ running=false; A=1; phase=0; document.getElementById('play').textContent='▶ Lancer'; const xr=draw(); bars(xr); }
+document.getElementById('reset').onclick = resetPipe;
+document.getElementById('hstart').oninput = function(){ H=parseFloat(this.value); document.getElementById('hv').textContent = fmt(H,1); resetPipe(); };
+resetPipe();
+
+/* ---------- Route ---------- */
+const vroad = document.getElementById('vroad'), wet = document.getElementById('wet'), phone = document.getElementById('phone');
+function updRoad(){
+  const kmh = +vroad.value, v = kmh/3.6;
+  const tr = phone.checked ? 2.5 : 1;
+  const dec = wet.checked ? 4.5 : 7;
+  const dR = v*tr, dF = v*v/(2*dec), dT = dR+dF;
+  document.getElementById('vrv').textContent = kmh;
+  document.getElementById('dR').textContent = fmt(dR)+' m';
+  document.getElementById('dF').textContent = fmt(dF)+' m';
+  document.getElementById('dT').textContent = fmt(dT)+' m';
+  const road = document.getElementById('road'), w = road.clientWidth - 50, scale = w/150;
+  const sR = document.getElementById('sR'), sF = document.getElementById('sF');
+  sR.style.left = '46px'; sR.style.width = Math.min(w, dR*scale)+'px';
+  sF.style.left = (46+Math.min(w, dR*scale))+'px'; sF.style.width = Math.max(0, Math.min(w - dR*scale, dF*scale))+'px';
+  let txt;
+  if (dT > 150) txt = "😬 Plus de 150 m pour s'arrêter, ça dépasse même la barre. C'est plus qu'un terrain de foot et demi.";
+  else if (dT > 100) txt = `C'est à peu près la longueur d'un terrain de foot (${fmt(dT)} m).`;
+  else if (dT > 40) txt = `C'est comme ${fmt(dT/4.5,0)} voitures garées l'une derrière l'autre.`;
+  else txt = `C'est à peu près la longueur de ${fmt(dT/12,1)} bus.`;
+  if (phone.checked) txt += " Le téléphone fait passer le temps de réaction d'environ 1 s à 2,5 s : regarde la partie jaune grossir.";
+  document.getElementById('roadtxt').textContent = txt;
+}
+[vroad,wet,phone].forEach(e=>e.addEventListener('input',updRoad));
+window.addEventListener('resize',updRoad);
+updRoad();
+
+/* ---------- Quiz ---------- */
+const QS = [
+  {q:"En quelle unité on mesure l'énergie ?", o:["Le watt (W)","Le joule (J)","Le kilomètre (km)","Le newton (N)"], a:1, e:"L'énergie se mesure en joules, symbole J."},
+  {q:"Un vélo roule 2 fois plus vite. Son énergie de mouvement est…", o:["2 fois plus grande","Pareille","4 fois plus grande","2 fois plus petite"], a:2, e:"La vitesse est au carré dans la formule : 2 × 2 = 4. Donc 4 fois plus d'énergie."},
+  {q:"72 km/h, ça fait combien en m/s ?", o:["20 m/s","259 m/s","7,2 m/s","36 m/s"], a:0, e:"On divise par 3,6 : 72 ÷ 3,6 = 20 m/s."},
+  {q:"Une balle tombe d'une fenêtre. Pendant la chute…", o:["Son énergie de hauteur se transforme en énergie de mouvement","Son énergie de mouvement diminue","Elle crée de l'énergie","Son énergie de hauteur augmente"], a:0, e:"Elle perd de la hauteur et gagne de la vitesse : l'énergie potentielle se transforme en énergie cinétique."},
+  {q:"L'énergie mécanique, c'est…", o:["Seulement l'énergie de mouvement","L'énergie d'un moteur","Énergie de mouvement + énergie de hauteur","L'énergie de la chaleur"], a:2, e:"Em = Ec + Ep. Les deux additionnées."},
+  {q:"Avec des frottements, l'énergie mécanique qui « disparaît » devient…", o:["Rien du tout, elle est perdue","De la chaleur","De l'énergie de hauteur","De l'électricité"], a:1, e:"L'énergie ne disparaît jamais. Avec les frottements, elle se transforme en chaleur."},
+  {q:"Une voiture de 1 000 kg roule à 10 m/s. Son énergie de mouvement vaut :", o:["10 000 J","5 000 J","100 000 J","50 000 J"], a:3, e:"½ × 1 000 × 10² = ½ × 1 000 × 100 = 50 000 J."},
+  {q:"Pourquoi le téléphone au volant est dangereux ?", o:["Il augmente la distance de freinage","Il augmente la distance de réaction","Il augmente la vitesse","Il diminue l'énergie de mouvement"], a:1, e:"Le conducteur met plus de temps à réagir, donc la voiture roule plus longtemps avant qu'il freine : la distance de réaction augmente."}
+];
+let score = 0;
+function buildQuiz(){
+  score = 0; document.getElementById('sc').textContent = `Score : 0 / ${QS.length}`;
+  const box = document.getElementById('qz'); box.innerHTML='';
+  QS.forEach((it,i)=>{
+    const d = document.createElement('div'); d.className='card q';
+    d.innerHTML = `<strong>${i+1}. ${it.q}</strong><div class="opts"></div><div class="exp"></div>`;
+    const opts = d.querySelector('.opts');
+    it.o.forEach((t,j)=>{
+      const b = document.createElement('button'); b.className='opt'; b.textContent=t;
+      b.onclick = ()=>{
+        if(d.classList.contains('done')) return;
+        d.classList.add('done');
+        opts.querySelectorAll('button').forEach((bb,k)=>{ bb.disabled=true; if(k===it.a) bb.classList.add('right'); });
+        if(j===it.a){ score++; d.querySelector('.exp').innerHTML = '✅ <strong>Bien joué.</strong> '+it.e; }
+        else { b.classList.add('wrong'); d.querySelector('.exp').innerHTML = '❌ <strong>Pas tout à fait.</strong> '+it.e; }
+        const answered = document.querySelectorAll('.q.done').length;
+        let msg = `Score : ${score} / ${QS.length}`;
+        if(answered===QS.length) msg += score===QS.length ? ' 🔥 Parfait !' : score>=5 ? ' 👍 Pas mal du tout' : ' 📖 Relis la fiche et retente';
+        document.getElementById('sc').textContent = msg;
+      };
+      opts.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+}
+document.getElementById('qreset').onclick = buildQuiz;
+buildQuiz();
+</script>
+<script data-goatcounter="https://melinecastillo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
