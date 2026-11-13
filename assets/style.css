@@ -816,3 +816,31 @@ a.proj-dark-card .proj-dark-cta::after{content:'→'}
   .about-card,.about-card:nth-child(2n){border-right:none;border-bottom:1px solid var(--line)}
   .about-card:last-child{border-bottom:none}
 }
+
+/* chiffres clés d'un projet */
+.case-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.case-stats div{padding:1.6rem 1.2rem 1.6rem 0;border-right:1px solid var(--line)}
+.case-stats div+div{padding-left:1.2rem}
+.case-stats div:last-child{border-right:none}
+.case-stats strong{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,3.6vw,3.4rem);line-height:1;color:var(--rose-d);margin-bottom:.6rem}
+.case-stats span{font-family:var(--sans);font-size:.72rem;line-height:1.5;color:var(--ink-mid)}
+.case-row p strong{font-weight:500;color:var(--ink)}
+@media(max-width:700px){
+  .case-stats{grid-template-columns:1fr 1fr}
+  .case-stats div{padding:1.4rem 1rem 1.4rem 0!important;border-right:none;border-bottom:1px solid var(--line)}
+  .case-stats div:nth-child(odd){border-right:1px solid var(--line)}
+  .case-stats div:nth-child(even){padding-left:1rem!important}
+  .case-stats div:nth-last-child(-n+2){border-bottom:none}
+}
+
+/* captures d'écran */
+.case-gallery{background:var(--bg-alt);border-top:1px solid var(--line)}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;margin-top:1rem}
+.shot{background:var(--cream);border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -28px rgba(37,21,23,.35);border:1px solid var(--line)}
+.shot-bar{display:flex;gap:6px;padding:.7rem .9rem;background:#efe7e3;border-bottom:1px solid var(--line)}
+.shot-bar i{width:9px;height:9px;border-radius:50%;background:rgba(26,14,16,.15)}
+.shot-bar i:first-child{background:var(--rose)}
+.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform 1.2s var(--expo)}
+.shot:hover img{transform:scale(1.03)}
+.shot figcaption{font-family:var(--sans);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);padding:1rem 1.1rem}
+@media(max-width:700px){.shots{grid-template-columns:1fr;gap:1.6rem}}
