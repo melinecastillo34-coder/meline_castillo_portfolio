@@ -109,12 +109,12 @@ $$('.gym-stat-n').forEach(el=>{const v=el.textContent.trim();if(/^\d+$/.test(v))
 if(window.gsap&&window.ScrollTrigger&&!reduce){
   gsap.registerPlugin(ScrollTrigger);
   if(window.Lenis){
-    const lenis=new Lenis({lerp:.085,wheelMultiplier:.9});
+    const lenis=new Lenis({lerp:.14,wheelMultiplier:1.15,touchMultiplier:1.2});
     lenis.on('scroll',ScrollTrigger.update);
     gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
     $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
       const id=a.getAttribute('href');const t=id.length>1?$(id):0;
-      e.preventDefault();lenis.scrollTo(t||0,{offset:-90,duration:1.6});
+      e.preventDefault();lenis.scrollTo(t||0,{offset:-90,duration:1});
     }));
   }
   const take=sel=>gsap.utils.toArray(sel).forEach(e=>{e.classList.remove('r');e.style.transition='none'});
