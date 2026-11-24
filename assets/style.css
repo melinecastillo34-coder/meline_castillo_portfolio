@@ -97,7 +97,7 @@ a{color:inherit;text-decoration:none}
 .hero-right{position:relative;overflow:hidden}
 .hero-photo{
   position:absolute;inset:0;will-change:transform;
-  background:url("/assets/img/hero.jpg") center 18%/cover no-repeat;
+  background:url("/assets/img/hero.jpg?v=2") center 22%/cover no-repeat;
   filter:saturate(1.05) contrast(1.04);transform:scale(1.1);
 }
 .hero-right::before{
