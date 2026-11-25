@@ -843,3 +843,11 @@ a.proj-dark-card .proj-dark-cta::after{content:'→'}
 .shot:hover img{transform:scale(1.03)}
 .shot figcaption{font-family:var(--sans);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mid);padding:1rem 1.1rem}
 @media(max-width:700px){.shots{grid-template-columns:1fr;gap:1.6rem}}
+
+/* lieux : seules les cartes remplies ont un cadre, alignées sous les rêves */
+@media(min-width:901px){
+  .visions-grid{border:none}
+  .vision-card{border:1px solid var(--line);border-left:none}
+  .vision-card:first-child{border-left:1px solid var(--line)}
+  .vision-card:last-child{border-right:1px solid var(--line)}
+}
